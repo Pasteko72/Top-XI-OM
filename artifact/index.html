@@ -1,10 +1,5 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Votez pour vos joueurs préférés de l'OM depuis 2000 et construisez le XI de la communauté.">
 <title>Le XI du Peuple</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
@@ -117,29 +112,9 @@ td.n{font-weight:600}
 tr.inxi td.n::after{content:"XI";margin-left:8px;font-family:var(--mono);font-size:10px;color:var(--om-deep);border:1px solid var(--om);border-radius:4px;padding:0 4px}
 .bar{display:inline-block;width:60px;height:6px;border-radius:3px;background:var(--line);vertical-align:middle;margin-right:8px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--om)}
-.side{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
-.account{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-.account .who{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
-.account .who img{width:28px;height:28px;border-radius:50%}
-.btn.primary{background:var(--om);border-color:var(--om);color:#fff}
-.btn.primary:hover{background:var(--om-deep);border-color:var(--om-deep)}
-dialog#login{border:0;padding:0;border-radius:18px;background:var(--surface);color:var(--ink);max-width:min(400px,calc(100vw - 32px));width:100%}
-dialog#login::backdrop{background:rgba(4,14,22,.6)}
-.login-card{padding:26px 22px;display:flex;flex-direction:column;gap:12px}
-.login-card h2{font-size:34px;font-weight:900}
-.login-card p{margin:0;color:var(--muted);font-size:14px}
-.sso{appearance:none;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;font:600 15px var(--body);cursor:pointer;border:1px solid var(--line)}
-.sso svg{width:20px;height:20px}
-.sso.google{background:#fff;color:#1f1f1f;border-color:#dadce0}
-.sso:focus-visible{outline:3px solid var(--om);outline-offset:2px}
-.login-card .err{color:#d93a3a;min-height:1em}
-.login-card .btn{align-self:center}
-@media (max-width:560px){.side{align-items:flex-start}.account{justify-content:flex-start}}
 footer{font-size:12px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-</head>
-<body>
 
 <div class="wrap">
   <header class="top">
@@ -148,13 +123,10 @@ footer{font-size:12px;color:var(--muted);text-align:center}
       <h1>Le XI <span>du Peuple</span></h1>
       <p>Pick your favourite in each duel. Every fan's vote feeds the community 4-4-2 on the pitch, and it changes as the votes come in.</p>
     </div>
-    <div class="side">
-    <div class="account" id="account"><button class="btn primary" type="button" disabled>Sign in to vote</button></div>
     <div class="stats">
       <div class="stat"><b id="statVotes">0</b><span>community votes</span></div>
       <div class="stat"><b id="statFans">0</b><span>fans voting</span></div>
       <div class="stat"><b id="statMine">0</b><span>your votes</span></div>
-    </div>
     </div>
   </header>
 
@@ -212,18 +184,7 @@ footer{font-size:12px;color:var(--muted);text-align:center}
   <footer>Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</footer>
 </div>
 
-<dialog id="login" aria-labelledby="loginTitle">
-  <div class="login-card">
-    <div class="eyebrow">Rejoins le Virage</div>
-    <h2 id="loginTitle">Sign in to vote</h2>
-    <p>One tap and your votes count toward the community XI. We only use your name and photo to show who's signed in.</p>
-    <button class="sso google" id="withGoogle" type="button"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continue with Google</button>
-    <p class="err" id="loginErr" role="alert"></p>
-    <button class="btn" id="closeLogin" type="button">Not now</button>
-  </div>
-</dialog>
-
-<script type="module">
+<script>
 // [name, seasons at OM, position in a 4-4-2]
 const RAW = [
   // Goalkeepers
@@ -415,118 +376,71 @@ function buildFilters(el, getter, setter){
 buildFilters($("filters"),()=>duelPos,v=>{duelPos=v;newDuel();});
 buildFilters($("rankFilters"),()=>rankPos,v=>{rankPos=v;render();});
 
-// ---- accounts + shared votes (Firebase) ----
-import { FIREBASE_CONFIG } from "./firebase-config.js";
-const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
-let fs = null, auth = null, A = null, F = null, user = null, unsubVotes = null;
+// ---- shared votes (db) ----
 let saveTimer=null, saving=null, dirty=false;
-
 function scheduleSave(){
   if (mode!=="shared") return;
-  dirty = true; clearTimeout(saveTimer); saveTimer = setTimeout(flush, 2200); // rules allow one write every 2 s
+  dirty = true; clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700);
 }
 async function flush(){
   if (saving){ await saving; }
-  if (!dirty || mode!=="shared" || !user) return;
+  if (!dirty || mode!=="shared") return;
   dirty = false;
-  const t = JSON.parse(JSON.stringify(mine));
-  const body = { t, n: Object.values(t).reduce((a,[w])=>a+w,0), at: F.serverTimestamp() };
-  saving = F.setDoc(F.doc(fs,"votes",user.uid), body).catch(()=>{ dirty = true; setTimeout(flush, 3000 + Math.random()*2000); })
-    .finally(()=>{ saving=null; });
+  const body = {t: JSON.parse(JSON.stringify(mine)), n: Object.values(mine).reduce((a,[w])=>a+w,0), at: new Date().toISOString()};
+  saving = db.doc("votes/"+uid).set(body).catch(e=>{
+    if (e && e.code==="invalid_argument"){ toLocal("Your account can view the community XI but not add to it. Your votes are kept on this device only."); }
+    else { dirty = true; setTimeout(flush, 2500 + Math.random()*1500); }
+  }).finally(()=>{saving=null;});
   await saving;
 }
+function toLocal(msg){ mode="local"; $("banner").innerHTML = msg; render(); }
 
-function setAccountUI(){
-  const box = $("account");
-  if (user){
-    const name = user.displayName || user.email || "Supporter";
-    box.innerHTML = `<span class="who">${user.photoURL?`<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">`:""}${esc(name)}</span><button class="btn" id="signOut" type="button">Sign out</button>`;
-    $("signOut").onclick = () => A.signOut(auth);
-  } else {
-    box.innerHTML = `<button class="btn primary" id="openLogin" type="button">Sign in to vote</button>`;
-    $("openLogin").onclick = openLogin;
+async function connect(){
+  if (!window.claude || !window.claude.use){ toLocal("Open this page on claude.ai to vote with the community. Your votes are kept on this device for now."); return; }
+  const [d,u] = await Promise.all([claude.use("db"), claude.use("user")]);
+  if (!d){ toLocal("Sign in on claude.ai to vote with the community. Your votes are kept on this device for now."); return; }
+  db = d;
+  uid = u ? await u.id() : null;
+  const can = u ? await u.can("data.write") : null;
+  if (!uid || can===false){
+    canWrite=false;
+    $("banner").innerHTML = "<b>View-only access.</b> You see the community XI live, but your votes stay on this device. Ask the owner for Contributor access to count.";
+  } else canWrite = true;
+
+  if (canWrite){
+    try{
+      const snap = await db.doc("votes/"+uid).get();
+      const saved = snap.exists ? (snap.data().t||{}) : {};
+      // merge: keep the larger of device and saved counts per player
+      const merged = {};
+      for (const id of new Set([...Object.keys(saved),...Object.keys(mine)])){
+        if (!BY_ID[id]) continue;
+        const a=saved[id]||[0,0], b=mine[id]||[0,0]; merged[id]=[Math.max(a[0],b[0]),Math.max(a[1],b[1])];
+      }
+      mine = merged; mode = "shared";
+      $("banner").innerHTML = "<b>You're in.</b> Every duel you vote on counts toward the community XI, live for every fan.";
+      if (JSON.stringify(merged)!==JSON.stringify(saved)){ dirty=true; flush(); }
+    }catch(e){ toLocal("The community vote is unreachable right now. Your votes are kept on this device."); }
   }
-}
-function openLogin(){ $("loginErr").textContent=""; $("login").showModal(); }
-$("closeLogin").onclick = () => $("login").close();
-$("login").addEventListener("click", e => { if (e.target === $("login")) $("login").close(); });
 
-async function signIn(){
-  const provider = new A.GoogleAuthProvider();
-  $("loginErr").textContent = "";
-  try { await A.signInWithPopup(auth, provider); $("login").close(); }
-  catch(e){
-    if (e.code==="auth/popup-blocked" || e.code==="auth/operation-not-supported-in-this-environment"){ return A.signInWithRedirect(auth, provider); }
-    if (e.code==="auth/popup-closed-by-user" || e.code==="auth/cancelled-popup-request") return;
-    $("loginErr").textContent = "Sign-in didn't work. Please try again.";
-  }
-}
-$("withGoogle").onclick = signIn;
-
-function listenVotes(){
-  unsubVotes = F.onSnapshot(F.query(F.collection(fs,"votes"), F.limit(5000)), qs => {
+  db.collection("votes").limit(1000).onSnapshot(qs=>{
     const agg = {}; let n=0; mineServer = {};
-    qs.forEach(doc => {
+    for (const doc of qs.docs){
       const t = (doc.data()||{}).t||{}; let any=false;
       for (const [id,v] of Object.entries(t)){
         if (!BY_ID[id] || !Array.isArray(v)) continue;
-        // cap each fan's weight per player so nobody can stuff the ballot
-        const w=Math.min(200,Math.max(0,+v[0]||0)), l=Math.min(200,Math.max(0,+v[1]||0));
+        const w=+v[0]||0, l=+v[1]||0; if (w<0||l<0) continue;
         const c=agg[id]||[0,0]; agg[id]=[c[0]+w,c[1]+l]; any = any || w+l>0;
-        if (user && doc.id===user.uid) mineServer[id]=[w,l];
+        if (doc.id===uid) mineServer[id]=[w,l];
       }
       if (any) n++;
-    });
-    community = agg; fans = n;
-    if (mode!=="shared") mineServer = {};
-    render();
-  }, () => { $("banner").textContent = "Live updates paused. Reload the page to reconnect."; });
-}
-
-async function onUser(u){
-  user = u; setAccountUI();
-  if (!u){
-    if (mode==="shared"){ mine = {}; try{ localStorage.removeItem(LS_KEY); }catch(e){} } // signed out: don't count the account's votes twice
-    mode = "local";
-    $("banner").innerHTML = "<b>Sign in with Google</b> to make your votes count. Until then they're kept on this device, and they'll be added to your account when you sign in.";
-    render(); return;
-  }
-  try{
-    const snap = await F.getDoc(F.doc(fs,"votes",u.uid));
-    const saved = snap.exists() ? (snap.data().t||{}) : {};
-    const merged = {};
-    for (const id of new Set([...Object.keys(saved),...Object.keys(mine)])){
-      if (!BY_ID[id]) continue;
-      const a=saved[id]||[0,0], b=mine[id]||[0,0]; merged[id]=[Math.max(a[0],b[0]),Math.max(a[1],b[1])];
     }
-    mine = merged; mode = "shared";
-    try{ localStorage.setItem(LS_KEY, JSON.stringify(mine)); }catch(e){}
-    $("banner").innerHTML = `<b>Allez l'OM, ${esc((u.displayName||"supporter").split(" ")[0])}!</b> Every duel you vote on now counts toward the community XI.`;
-    if (JSON.stringify(merged)!==JSON.stringify(saved)){ dirty=true; flush(); }
-  }catch(e){ mode="local"; $("banner").textContent = "The community vote is unreachable right now. Your votes are kept on this device."; }
-  render();
+    community = agg; fans = n;
+    if (mode!=="shared") mineServer = {}; // local votes are added on top
+    render();
+  }, err=>{ $("banner").textContent = "Live updates paused. Reload the page to reconnect."; });
 }
-
-async function connect(){
-  if (!FIREBASE_CONFIG || !FIREBASE_CONFIG.apiKey){
-    $("account").innerHTML = "";
-    toLocal("Demo mode: accounts aren't set up yet (see the README). Your votes are kept on this device.");
-    return;
-  }
-  const [appMod, authMod, fsMod] = await Promise.all([
-    import(FB+"firebase-app.js"), import(FB+"firebase-auth.js"), import(FB+"firebase-firestore.js")]);
-  A = authMod; F = fsMod;
-  const app = appMod.initializeApp(FIREBASE_CONFIG);
-  auth = A.getAuth(app); fs = F.getFirestore(app);
-  A.getRedirectResult(auth).catch(()=>{});
-  listenVotes();
-  A.onAuthStateChanged(auth, onUser);
-}
-function toLocal(msg){ mode="local"; $("banner").innerHTML = msg; render(); }
 
 render(); newDuel();
 connect().catch(()=>toLocal("The community vote is unreachable right now. Your votes are kept on this device."));
 </script>
-
-</body>
-</html>

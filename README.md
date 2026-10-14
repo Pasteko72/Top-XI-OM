@@ -5,10 +5,10 @@ build a live 4-4-2 "top XI" on the pitch at the top of the page.
 
 | Path | What it is |
 |---|---|
-| `web/` | The public website: sign in with **Google**, votes stored in Firebase. Deployed to GitHub Pages. |
-| `web/firebase-config.js` | Your Firebase keys go here (empty = demo mode, votes stay on the device). |
+| `index.html` | The public website: sign in with **Google**, votes stored in Firebase. Served by GitHub Pages from this branch. |
+| `firebase-config.js` | Firebase web keys (empty = demo mode, votes stay on the device). |
 | `firestore.rules` | Database security rules (each fan can only edit their own votes, with anti-spam limits). |
-| `index.html` | The claude.ai Artifact version (claude.ai accounts only). |
+| `artifact/index.html` | The claude.ai Artifact version (claude.ai accounts only). |
 
 ## Going live with Google sign-in (about 10 minutes, free)
 
@@ -17,7 +17,7 @@ build a live 4-4-2 "top XI" on the pitch at the top of the page.
 2. Left sidebar: **Databases & Storage → Firestore Database → Create database** (production mode, region `eur3` / Europe).
 3. Open the **Rules** tab, paste the contents of `firestore.rules`, click **Publish**.
 4. **Project settings (gear) → Your apps → Web (`</>`)** → register the app → copy the `firebaseConfig`
-   values into `web/firebase-config.js`. These keys are meant to be public; the rules protect the data.
+   values into `firebase-config.js`. These keys are meant to be public; the rules protect the data.
 
 ### 2. Turn on Google sign-in
 Left sidebar: **Security → Authentication → Get started → Sign-in method → Google → Enable** → pick a support email → Save.
@@ -25,9 +25,8 @@ Left sidebar: **Security → Authentication → Get started → Sign-in method �
 `https://console.firebase.google.com/project/YOUR-PROJECT-ID/authentication/providers`.)
 
 ### 3. Publish the website on GitHub Pages
-1. GitHub repo → **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Push any change to `web/` (or run the *Deploy site to GitHub Pages* workflow by hand from the **Actions** tab).
-3. The site is at **https://pasteko72.github.io/Top-XI-OM/**.
+GitHub repo → **Settings → Pages → Deploy from a branch** → branch `claude/marseille-player-voting-app-uj8pbf`, folder `/ (root)`.
+The site is at **https://pasteko72.github.io/Top-XI-OM/** and updates on every push.
 
 ### 4. Allow the site's address to sign people in
 Firebase → **Authentication → Settings → Authorized domains → Add domain** → `pasteko72.github.io`.
@@ -39,4 +38,4 @@ Firebase → **Authentication → Settings → Authorized domains → Add domain
 - Duels are always between two players of the same position, and less-voted players come up more often.
 - Fans can vote before signing in; those votes are added to their account when they sign in.
 
-Player list: edit the `RAW` array in `web/index.html` (`[name, seasons at OM, position]`).
+Player list: edit the `RAW` array in `index.html` (`[name, seasons at OM, position]`).
