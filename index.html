@@ -90,6 +90,9 @@ header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:spac
 .pick .pos{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#fff;background:var(--om-deep);border-radius:99px;padding:2px 9px}
 :root[data-theme="dark"] .pick .pos{color:#04121c}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pick .pos{color:#04121c}}
+.pick .ph{width:84px;height:84px;border-radius:50%;border:3px solid var(--om);background:var(--surface);overflow:hidden;display:grid;place-items:center;
+  font-family:var(--display);font-weight:900;font-size:30px;color:var(--om-deep);flex:none}
+.pick .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
 .pick .name{font-family:var(--display);font-weight:800;font-size:clamp(24px,4.6vw,36px);line-height:1;text-transform:uppercase;overflow-wrap:anywhere}
 .pick .seasons{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .pick .rec{font-size:12px;color:var(--muted)}
@@ -218,7 +221,7 @@ footer{font-size:12px;color:var(--muted);text-align:center}
     </div>
   </section>
 
-  <footer data-i18n="footer">Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</footer>
+  <footer><span data-i18n="footer">Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</span> <span data-i18n="photoCredit"></span></footer>
 </div>
 
 <dialog id="login" aria-labelledby="loginTitle">
@@ -321,7 +324,7 @@ const I18N = {
     paused:"Mises à jour en direct suspendues. Recharge la page pour te reconnecter.",
     signedOut:"<b>Connecte-toi avec Google</b> pour que tes votes comptent. En attendant, ils restent sur cet appareil et seront ajoutés à ton compte à la connexion.",
     signedIn:"<b>Allez l'OM, {name} !</b> Chaque duel que tu votes compte maintenant pour le XI de la communauté.",
-    supporter:"supporter"
+    supporter:"supporter", photoCredit:"Photos : Wikipédia / Wikimedia Commons, sous licences libres."
   },
   en: {
     eyebrow:"Olympique de Marseille · 2000 → today",
@@ -343,7 +346,7 @@ const I18N = {
     paused:"Live updates paused. Reload the page to reconnect.",
     signedOut:"<b>Sign in with Google</b> to make your votes count. Until then they're kept on this device, and they'll be added to your account when you sign in.",
     signedIn:"<b>Allez l'OM, {name}!</b> Every duel you vote on now counts toward the community XI.",
-    supporter:"supporter"
+    supporter:"supporter", photoCredit:"Photos: Wikipedia / Wikimedia Commons, under free licences."
   }
 };
 const POS_TEXT = {
@@ -435,6 +438,39 @@ function render(){
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
 
+// ---- player photos ----
+const PHOTO_KEY = "om-xi-photos-v1";
+let photos = {};
+try{ photos = JSON.parse(localStorage.getItem(PHOTO_KEY)||"{}")||{}; }catch(e){ photos = {}; }
+const photoJobs = {};
+async function wikiThumb(host, query){
+  const u = `https://${host}/w/api.php?action=query&format=json&origin=*&generator=search&gsrlimit=1&gsrnamespace=0`
+    + `&gsrsearch=${encodeURIComponent(query)}&prop=pageimages|pageprops&piprop=thumbnail&pithumbsize=240&pilicense=free`;
+  const r = await fetch(u); if (!r.ok) return "";
+  const pages = Object.values((await r.json()).query?.pages || {});
+  return pages[0]?.thumbnail?.source || "";
+}
+function getPhoto(p){
+  if (p.id in photos) return Promise.resolve(photos[p.id]);
+  if (!photoJobs[p.id]) photoJobs[p.id] = (async () => {
+    let url = "";
+    try{ url = await wikiThumb("fr.wikipedia.org", `${p.name} footballeur Olympique de Marseille`); }catch(e){}
+    if (!url){ try{ url = await wikiThumb("en.wikipedia.org", `${p.name} footballer Marseille`); }catch(e){} }
+    photos[p.id] = url;
+    try{ localStorage.setItem(PHOTO_KEY, JSON.stringify(photos)); }catch(e){}
+    return url;
+  })();
+  return photoJobs[p.id];
+}
+function fillPhoto(el, p){
+  getPhoto(p).then(url => {
+    if (!url || !el.isConnected || el.dataset.id !== p.id) return;
+    const img = new Image(); img.alt = ""; img.referrerPolicy = "no-referrer"; img.decoding = "async";
+    img.onload = () => { if (el.dataset.id === p.id){ el.textContent = ""; el.appendChild(img); } };
+    img.src = url;
+  });
+}
+
 // ---- duels ----
 function newDuel(){
   const tl = tallies();
@@ -461,8 +497,9 @@ function paintDuel(fresh){
     const p=current[i], r=tl[p.id]||[0,0];
     if (fresh){ el.className="pick"; el.disabled=false; }
     el.setAttribute("aria-label", t("voteFor",{name:p.name,pos:posLabel(p.pos),seasons:p.seasons}));
-    el.innerHTML = `<span class="pos">${posLabel(p.pos)}</span><span class="name">${esc(p.name)}</span>
+    el.innerHTML = `<span class="ph" data-id="${p.id}" aria-hidden="true">${initials(p.name)}</span><span class="pos">${posLabel(p.pos)}</span><span class="name">${esc(p.name)}</span>
       <span class="seasons">${t("atOM")}${lang==="fr"?" :":":"} ${esc(p.seasons)}</span><span class="rec">${r[0]+r[1]? t("rec",{w:r[0],g:r[0]+r[1]}) : t("firstDuel")}</span>`;
+    fillPhoto(el.querySelector(".ph"), p);
   });
 }
 function vote(i){
