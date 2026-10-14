@@ -4,12 +4,12 @@ service cloud.firestore {
     // One document per fan: votes/{uid} = { t: {playerId: [wins, losses]}, n: totalVotes, at: serverTime }
     match /votes/{uid} {
       allow read: if true;
-      allow create: if signedInAs(uid) && valid() && request.resource.data.n <= 50;
+      allow create: if signedInAs(uid) && valid() && request.resource.data.n <= 300;
       allow update: if signedInAs(uid) && valid()
-        // at most one save every 2 seconds, adding at most 20 votes
+        // at most one save every 2 seconds, adding at most 60 votes
         && request.time > resource.data.at + duration.value(2, 's')
         && request.resource.data.n >= resource.data.n
-        && request.resource.data.n <= resource.data.n + 20;
+        && request.resource.data.n <= resource.data.n + 60;
       allow delete: if signedInAs(uid);
     }
     function signedInAs(uid) { return request.auth != null && request.auth.uid == uid; }
