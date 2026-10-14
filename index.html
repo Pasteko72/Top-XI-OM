@@ -1,0 +1,446 @@
+<title>Le XI du Peuple</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: Vélodrome night — a floodlit vertical pitch up top, the duel "à la tribune" below, full rankings last. */
+:root{
+  --bg:#eef4f8;         /* pale sky, tinted toward OM blue */
+  --surface:#ffffff;
+  --ink:#0b1e2d;        /* deep navy */
+  --muted:#557086;
+  --line:#d3e1ea;
+  --om:#1d9ad6;         /* ciel et blanc */
+  --om-deep:#0d6fa3;
+  --gold:#c9a227;       /* Coupe des champions 1993 star */
+  --pitch:#1f7a45;
+  --pitch-2:#22864c;
+  --chalk:rgba(255,255,255,.75);
+  --chip:#ffffff;
+  --chip-ink:#0b1e2d;
+  --win:#1f9d5a;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#07131d;--surface:#0e2130;--ink:#e7f1f8;--muted:#8fa9bd;--line:#1c3447;
+  --om:#38b3ec;--om-deep:#7fd0f5;--gold:#e0bb45;--pitch:#155a33;--pitch-2:#18653a;
+  --chalk:rgba(255,255,255,.6);--chip:#f4f9fc;--chip-ink:#0b1e2d;--win:#3cc77d;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#07131d;--surface:#0e2130;--ink:#e7f1f8;--muted:#8fa9bd;--line:#1c3447;
+  --om:#38b3ec;--om-deep:#7fd0f5;--gold:#e0bb45;--pitch:#155a33;--pitch-2:#18653a;
+  --chalk:rgba(255,255,255,.6);--chip:#f4f9fc;--chip-ink:#0b1e2d;--win:#3cc77d;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;line-height:.95;margin:0;text-wrap:balance}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.brand h1{font-size:clamp(40px,8vw,72px);font-weight:900}
+.brand h1 span{color:var(--om)}
+.brand p{margin:6px 0 0;color:var(--muted);max-width:52ch}
+.stats{display:flex;gap:20px;font-variant-numeric:tabular-nums}
+.stat b{display:block;font-family:var(--display);font-size:30px;font-weight:800;line-height:1}
+.stat span{font-size:12px;color:var(--muted)}
+.banner{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--muted)}
+.banner b{color:var(--ink)}
+
+/* Pitch */
+.pitch-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.pitch{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:68/88;border-radius:14px;overflow:hidden;
+  background:repeating-linear-gradient(180deg,var(--pitch) 0 8%,var(--pitch-2) 8% 16%);
+  box-shadow:0 20px 40px -24px rgba(5,30,50,.6)}
+.pitch svg.lines{position:absolute;inset:0;width:100%;height:100%}
+.pitch svg.lines *{fill:none;stroke:var(--chalk);stroke-width:.35}
+.slot{position:absolute;transform:translate(-50%,-50%);width:min(23%,128px);display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;transition:transform .3s}
+.shirt{width:clamp(30px,8vw,44px);height:clamp(30px,8vw,44px);border-radius:50%;background:var(--chip);color:var(--om-deep);
+  display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:clamp(13px,3.4vw,19px);
+  border:3px solid var(--om);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.slot.gk .shirt{background:var(--gold);color:#1b1400;border-color:#fff}
+.slot .nm{background:rgba(6,22,34,.78);color:#fff;border-radius:6px;padding:2px 6px;font-size:clamp(10px,2.6vw,13px);font-weight:600;line-height:1.2;max-width:100%;overflow-wrap:anywhere}
+.slot .meta{font-family:var(--mono);font-size:clamp(8px,2vw,10px);color:#e9f6ff;opacity:.9;line-height:1.1}
+.slot.flash .shirt{animation:pop .6s ease}
+@keyframes pop{40%{transform:scale(1.22)}}
+.pitch .formation{position:absolute;left:10px;top:8px;font-family:var(--display);font-weight:800;color:var(--chalk);font-size:22px;letter-spacing:.05em}
+.pitch .live{position:absolute;right:10px;top:12px;font-family:var(--mono);font-size:10px;color:#fff;background:rgba(0,0,0,.35);padding:3px 7px;border-radius:99px;display:flex;align-items:center;gap:6px}
+.pitch .live i{width:7px;height:7px;border-radius:50%;background:#ff4d4d;display:inline-block;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.caption{max-width:640px;margin:0 auto;font-size:12px;color:var(--muted);text-align:center}
+
+/* Duel */
+.duel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px clamp(14px,3vw,28px);display:flex;flex-direction:column;gap:16px}
+.duel-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.duel-head h2{font-size:clamp(28px,5vw,40px);font-weight:900}
+.duel-head h2 em{font-style:normal;color:var(--om)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:12px}
+.vs{align-self:center;font-family:var(--display);font-weight:900;font-size:28px;color:var(--muted)}
+.pick{appearance:none;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:18px 14px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font:inherit;transition:border-color .15s,transform .15s,background .15s;min-width:0}
+.pick:hover{border-color:var(--om);transform:translateY(-2px)}
+.pick:focus-visible{outline:3px solid var(--om);outline-offset:2px}
+.pick .pos{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#fff;background:var(--om-deep);border-radius:99px;padding:2px 9px}
+:root[data-theme="dark"] .pick .pos{color:#04121c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pick .pos{color:#04121c}}
+.pick .name{font-family:var(--display);font-weight:800;font-size:clamp(24px,4.6vw,36px);line-height:1;text-transform:uppercase;overflow-wrap:anywhere}
+.pick .seasons{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pick .rec{font-size:12px;color:var(--muted)}
+.pick.chosen{border-color:var(--win);background:color-mix(in srgb,var(--win) 14%,var(--bg))}
+.pick.lost{opacity:.45}
+.duel-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.btn{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:7px 14px;font:600 13px var(--body);cursor:pointer}
+.btn:hover{border-color:var(--om)}
+.btn:focus-visible{outline:3px solid var(--om);outline-offset:2px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media (max-width:560px){.pair{grid-template-columns:minmax(0,1fr)}.vs{justify-self:center;font-size:22px}}
+
+/* Rankings */
+.rank{display:flex;flex-direction:column;gap:12px}
+.rank-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px}
+.rank-head h2{font-size:30px;font-weight:900}
+.table-box{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+td.n{font-weight:600}
+tr.inxi td.n::after{content:"XI";margin-left:8px;font-family:var(--mono);font-size:10px;color:var(--om-deep);border:1px solid var(--om);border-radius:4px;padding:0 4px}
+.bar{display:inline-block;width:60px;height:6px;border-radius:3px;background:var(--line);vertical-align:middle;margin-right:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--om)}
+footer{font-size:12px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="eyebrow">Olympique de Marseille · 2000 → aujourd'hui</div>
+      <h1>Le XI <span>du Peuple</span></h1>
+      <p>Pick your favourite in each duel. Every fan's vote feeds the community 4-4-2 on the pitch, and it changes as the votes come in.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statVotes">0</b><span>community votes</span></div>
+      <div class="stat"><b id="statFans">0</b><span>fans voting</span></div>
+      <div class="stat"><b id="statMine">0</b><span>your votes</span></div>
+    </div>
+  </header>
+
+  <div class="banner" id="banner">Connecting to the community vote…</div>
+
+  <section class="pitch-wrap" aria-label="Community top XI">
+    <div class="pitch" id="pitch">
+      <svg class="lines" viewBox="0 0 68 88" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="2" y="2" width="64" height="84"/>
+        <line x1="2" y1="44" x2="66" y2="44"/>
+        <circle cx="34" cy="44" r="7.5"/>
+        <rect x="15" y="2" width="38" height="13"/><rect x="25" y="2" width="18" height="5"/>
+        <rect x="15" y="73" width="38" height="13"/><rect x="25" y="81" width="18" height="5"/>
+        <path d="M27 15 A7.5 7.5 0 0 0 41 15"/><path d="M27 73 A7.5 7.5 0 0 1 41 73"/>
+      </svg>
+      <div class="formation">4-4-2</div>
+      <div class="live"><i></i>LIVE</div>
+      <div id="slots"></div>
+    </div>
+    <div class="caption" id="caption">Ranked by community win rate in duels, smoothed so a player needs a few votes before topping a position.</div>
+  </section>
+
+  <section class="duel" aria-label="Player duel">
+    <div class="duel-head">
+      <div>
+        <div class="eyebrow" id="duelPos">Duel</div>
+        <h2>Who gets <em>your vote?</em></h2>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Duel position"></div>
+    </div>
+    <div class="pair">
+      <button class="pick" id="pickA" type="button"></button>
+      <div class="vs" aria-hidden="true">VS</div>
+      <button class="pick" id="pickB" type="button"></button>
+    </div>
+    <div class="duel-foot">
+      <span id="duelNote">Tap a player to vote. A new duel follows straight away.</span>
+      <button class="btn" id="skip" type="button">Skip this duel</button>
+    </div>
+  </section>
+
+  <section class="rank" aria-label="Rankings">
+    <div class="rank-head">
+      <h2>Classement</h2>
+      <div class="filters" id="rankFilters" role="group" aria-label="Ranking position"></div>
+    </div>
+    <div class="table-box">
+      <table>
+        <thead><tr><th>#</th><th>Player</th><th>Pos</th><th>At OM</th><th class="num">Wins</th><th class="num">Duels</th><th class="num">Win rate</th></tr></thead>
+        <tbody id="rankBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</footer>
+</div>
+
+<script>
+// [name, seasons at OM, position in a 4-4-2]
+const RAW = [
+  // Goalkeepers
+  ["Stéphane Porato","2000–01","GK"],["Vedran Runje","2001–04","GK"],["Fabien Barthez","2003–06","GK"],
+  ["Cédric Carrasso","2005–09","GK"],["Steve Mandanda","2007–16, 2017–22","GK"],["Gennaro Bracigliano","2007–10","GK"],
+  ["Yohann Pelé","2015–20","GK"],["Pau López","2021–24","GK"],["Rubén Blanco","2022–24","GK"],["Gerónimo Rulli","2024–","GK"],
+  // Right backs
+  ["Habib Beye","2003–07","RB"],["Ronald Zubar","2006–10","RB"],["Laurent Bonnart","2007–10","RB"],
+  ["César Azpilicueta","2010–12","RB"],["Rod Fanni","2011–15","RB"],["Brice Dja Djédjé","2014–16","RB"],
+  ["Mauricio Isla","2015–16","RB"],["Bouna Sarr","2015–20","RB"],["Hiroki Sakai","2016–21","RB"],
+  ["Pol Lirola","2021–22","RB"],["Jonathan Clauss","2022–24","RB"],["Michael Murillo","2023–24","RB"],["Amir Murillo","2025–","RB"],
+  // Centre backs
+  ["William Gallas","2000–01","CB"],["Frank Leboeuf","2001–03","CB"],["Daniel Van Buyten","2001–04","CB"],
+  ["Johnny Ecker","2001–04","CB"],["Abdoulaye Méïté","2000–06","CB"],["Frédéric Déhu","2004–07","CB"],
+  ["Renato Civelli","2006–09","CB"],["Vitorino Hilton","2008–11","CB"],["Souleymane Diawara","2009–14","CB"],
+  ["Nicolas N'Koulou","2011–16","CB"],["Karim Rekik","2015–17","CB"],["Rolando","2015–18","CB"],
+  ["Adil Rami","2017–19","CB"],["Boubacar Kamara","2017–22","CB"],["Duje Ćaleta-Car","2018–22","CB"],
+  ["Álvaro González","2019–22","CB"],["William Saliba","2021–22","CB"],["Leonardo Balerdi","2020–","CB"],
+  ["Chancel Mbemba","2022–25","CB"],["Samuel Gigot","2022–24","CB"],["Eric Bailly","2022–23","CB"],
+  ["Derek Cornelius","2024–","CB"],["Benjamin Pavard","2025–","CB"],["Nayef Aguerd","2025–","CB"],
+  ["Facundo Medina","2025–","CB"],["CJ Egan-Riley","2025–","CB"],
+  // Left backs
+  ["Bixente Lizarazu","2004–05","LB"],["Taye Taiwo","2005–11","LB"],["Gabriel Heinze","2009–11","LB"],
+  ["Jérémy Morel","2011–15","LB"],["Benjamin Mendy","2014–16","LB"],["Paolo De Ceglie","2015–16","LB"],
+  ["Patrice Evra","2016–17","LB"],["Jordan Amavi","2017–21","LB"],["Luan Peres","2021–23","LB"],
+  ["Nuno Tavares","2022–23","LB"],["Sead Kolašinac","2022–23","LB"],["Renan Lodi","2023","LB"],
+  ["Quentin Merlin","2024–25","LB"],["Ulisses Garcia","2024–","LB"],["Emerson Palmieri","2025–","LB"],
+  // Right midfield / wingers
+  ["Fabrice Fiorèse","2004–05","RM"],["Mathieu Valbuena","2006–14","RM"],["Hatem Ben Arfa","2008–10","RM"],
+  ["Bakari Koné","2008–11","RM"],["Morgan Amalfitano","2011–13","RM"],["Florian Thauvin","2013–15, 2016–21","RM"],
+  ["Nemanja Radonjić","2019–21","RM"],["Cengiz Ünder","2021–23","RM"],["Ismaïla Sarr","2023–24","RM"],
+  ["Mason Greenwood","2024–","RM"],["Timothy Weah","2025–","RM"],
+  // Central midfield
+  ["Peter Lúccin","2000–01","CM"],["Brahim Hemdani","2001–05","CM"],["Sylvain N'Diaye","2001–05","CM"],
+  ["Fabio Celestini","2002–04","CM"],["Mathieu Flamini","2003–04","CM"],["Camel Meriem","2003–05","CM"],
+  ["Benoît Pedretti","2004–05","CM"],["Samir Nasri","2004–08","CM"],["Lorik Cana","2005–09","CM"],
+  ["Édouard Cissé","2006–09","CM"],["Wilson Oruma","2006–08","CM"],["Modeste M'bami","2006–09","CM"],
+  ["Benoît Cheyrou","2007–12","CM"],["Charles Kaboré","2008–13","CM"],["Lucho González","2009–12","CM"],
+  ["Stéphane Mbia","2009–13","CM"],["Fabrice Abriel","2009–11","CM"],["Alou Diarra","2011–12","CM"],
+  ["Joey Barton","2012–13","CM"],["Alaixys Romao","2012–15","CM"],["Giannelli Imbula","2013–15","CM"],
+  ["Mario Lemina","2013–15","CM"],["Abdelaziz Barrada","2014–16","CM"],["Lassana Diarra","2015–17","CM"],
+  ["Rémy Cabella","2015–17","CM"],["Maxime Lopez","2016–20","CM"],["Morgan Sanson","2017–21","CM"],
+  ["Luiz Gustavo","2017–19","CM"],["Kevin Strootman","2018–20","CM"],["Valentin Rongier","2019–25","CM"],
+  ["Pape Gueye","2020–24","CM"],["Michaël Cuisance","2020–21","CM"],["Mattéo Guendouzi","2021–23","CM"],
+  ["Gerson","2021–23","CM"],["Jordan Veretout","2022–24","CM"],["Azzedine Ounahi","2023–25","CM"],
+  ["Geoffrey Kondogbia","2023–25","CM"],["Adrien Rabiot","2024–25","CM"],["Pierre-Emile Højbjerg","2024–","CM"],
+  ["Matt O'Riley","2025–","CM"],["Arthur Vermeeren","2025–","CM"],
+  // Left midfield / wingers
+  ["Franck Ribéry","2005–07","LM"],["Karim Ziani","2007–08","LM"],["Boudewijn Zenden","2007–09","LM"],
+  ["André Ayew","2009–15","LM"],["Jordan Ayew","2010–14","LM"],["Dimitri Payet","2013–15, 2017–23","LM"],
+  ["Romain Alessandrini","2014–16","LM"],["Georges-Kévin N'Koudou","2015–16","LM"],["Lucas Ocampos","2015–19","LM"],
+  ["Amine Harit","2022–25","LM"],["Luis Henrique","2024–25","LM"],["Jonathan Rowe","2024–25","LM"],["Igor Paixão","2025–","LM"],
+  // Strikers
+  ["Ibrahima Bakayoko","2000–03","ST"],["Florian Maurice","2000–02","ST"],["Didier Drogba","2003–04","ST"],
+  ["Mido","2003–04","ST"],["Steve Marlet","2003–05","ST"],["Mamadou Niang","2005–10","ST"],
+  ["Djibril Cissé","2006–08","ST"],["Brandão","2008–12","ST"],["Fernando Morientes","2009–10","ST"],
+  ["Loïc Rémy","2010–13","ST"],["André-Pierre Gignac","2010–15","ST"],["Michy Batshuayi","2014–16","ST"],
+  ["Bafétimbi Gomis","2016–17","ST"],["Kostas Mitroglou","2017–19","ST"],["Valère Germain","2017–21","ST"],
+  ["Darío Benedetto","2019–21","ST"],["Arkadiusz Milik","2020–22","ST"],["Bamba Dieng","2020–23","ST"],
+  ["Cédric Bakambu","2021–22","ST"],["Alexis Sánchez","2022–23","ST"],["Vitinha","2023–24","ST"],
+  ["Iliman Ndiaye","2023–24","ST"],["Pierre-Emerick Aubameyang","2023–24, 2025–","ST"],["Elye Wahi","2024–25","ST"],
+  ["Neal Maupay","2024–25","ST"],["Amine Gouiri","2025–","ST"]
+];
+const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const PLAYERS = RAW.map(([name,seasons,pos]) => ({id:slug(name),name,seasons,pos}));
+const BY_ID = Object.fromEntries(PLAYERS.map(p=>[p.id,p]));
+const POS_LABEL = {GK:"Goalkeeper",RB:"Right back",CB:"Centre back",LB:"Left back",RM:"Right midfield",CM:"Central midfield",LM:"Left midfield",ST:"Striker"};
+const POS_ORDER = ["GK","RB","CB","LB","RM","CM","LM","ST"];
+// 4-4-2, attacking upward. x/y in % of the pitch.
+const SLOTS = [
+  {pos:"ST",i:0,x:36,y:14},{pos:"ST",i:1,x:64,y:14},
+  {pos:"LM",i:0,x:13,y:40},{pos:"CM",i:0,x:37,y:44},{pos:"CM",i:1,x:63,y:44},{pos:"RM",i:0,x:87,y:40},
+  {pos:"LB",i:0,x:13,y:68},{pos:"CB",i:0,x:37,y:72},{pos:"CB",i:1,x:63,y:72},{pos:"RB",i:0,x:87,y:68},
+  {pos:"GK",i:0,x:50,y:89}
+];
+
+// ---- state ----
+let community = {};        // id -> [w,l] summed over everyone (incl. me, from server)
+let fans = 0;
+let mine = {};             // id -> [w,l] for this viewer
+let mineServer = {};       // what the server has for me (to avoid double counting before snapshot)
+let db = null, uid = null, canWrite = false, mode = "local";
+let duelPos = "ALL", rankPos = "ALL", current = null, busy = false;
+let prevXI = {};
+
+const $ = id => document.getElementById(id);
+const LS_KEY = "om-xi-local-votes";
+try{ mine = JSON.parse(localStorage.getItem(LS_KEY)||"{}")||{}; }catch(e){ mine = {}; }
+
+function tallies(){
+  // community from server + my unsynced difference
+  const t = {};
+  for (const [id,[w,l]] of Object.entries(community)) t[id]=[w,l];
+  for (const [id,[w,l]] of Object.entries(mine)){
+    const s = mineServer[id]||[0,0];
+    const dw = mode==="shared" ? w-s[0] : w, dl = mode==="shared" ? l-s[1] : l;
+    const cur = t[id]||[0,0]; t[id]=[cur[0]+Math.max(0,dw),cur[1]+Math.max(0,dl)];
+  }
+  return t;
+}
+const score = ([w,l]) => (w+3)/(w+l+6);   // Bayesian-smoothed win rate
+function ranked(pos, t){
+  return PLAYERS.filter(p=>pos==="ALL"||p.pos===pos)
+    .map(p=>{const r=t[p.id]||[0,0];return {...p,w:r[0],g:r[0]+r[1],s:score(r)}})
+    .sort((a,b)=>b.s-a.s||b.g-a.g||a.name.localeCompare(b.name));
+}
+function initials(n){const parts=n.replace(/[-']/g," ").split(/\s+/).filter(Boolean);return (parts.length>1?parts[0][0]+parts[parts.length-1][0]:n.slice(0,2)).toUpperCase();}
+function surname(n){const p=n.split(" ");return p.length>1?p.slice(1).join(" "):n;}
+
+function render(){
+  const t = tallies();
+  // pitch
+  const xi = {}; const html = [];
+  const best = {}; for (const pos of POS_ORDER) best[pos]=ranked(pos,t);
+  for (const s of SLOTS){
+    const p = best[s.pos][s.i]; xi[s.pos+s.i]=p.id;
+    const changed = prevXI[s.pos+s.i] && prevXI[s.pos+s.i]!==p.id;
+    const pct = p.g? Math.round(p.w/p.g*100)+"% · "+p.g+" duels" : "no votes yet";
+    html.push(`<div class="slot ${s.pos==="GK"?"gk":""} ${changed?"flash":""}" style="left:${s.x}%;top:${s.y}%">
+      <div class="shirt" aria-hidden="true">${initials(p.name)}</div>
+      <div class="nm">${esc(surname(p.name))}</div>
+      <div class="meta">${s.pos} · ${esc(p.seasons)}<br>${pct}</div></div>`);
+  }
+  prevXI = xi;
+  $("slots").innerHTML = html.join("");
+  // stats
+  let total=0; for (const [w] of Object.values(t)) total+=w;
+  let myTotal=0; for (const [w] of Object.values(mine)) myTotal+=w;
+  $("statVotes").textContent = total.toLocaleString("fr-FR");
+  $("statFans").textContent = Math.max(fans, myTotal?1:0).toLocaleString("fr-FR");
+  $("statMine").textContent = myTotal.toLocaleString("fr-FR");
+  // table
+  const inXI = new Set(Object.values(xi));
+  const rows = ranked(rankPos,t).slice(0, rankPos==="ALL"?40:999);
+  $("rankBody").innerHTML = rows.map((p,i)=>{
+    const wr = p.g? Math.round(p.w/p.g*100):0;
+    return `<tr class="${inXI.has(p.id)?"inxi":""}"><td>${i+1}</td><td class="n">${esc(p.name)}</td><td>${p.pos}</td><td>${esc(p.seasons)}</td>
+      <td class="num">${p.w}</td><td class="num">${p.g}</td><td class="num"><span class="bar"><i style="width:${wr}%"></i></span>${p.g?wr+"%":"–"}</td></tr>`;
+  }).join("");
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+
+// ---- duels ----
+function newDuel(){
+  const t = tallies();
+  let pos = duelPos;
+  if (pos==="ALL"){ // weight positions by how many XI slots they fill
+    const bag = SLOTS.map(s=>s.pos); pos = bag[Math.floor(Math.random()*bag.length)];
+  }
+  const pool = PLAYERS.filter(p=>p.pos===pos);
+  // favour players with fewer duels so everyone gets a chance
+  const weight = p => 1/(1+((t[p.id]||[0,0])[0]+(t[p.id]||[0,0])[1])/4);
+  const pickOne = (exclude) => {
+    const c = pool.filter(p=>p.id!==exclude); let sum=c.reduce((a,p)=>a+weight(p),0), r=Math.random()*sum;
+    for (const p of c){ r-=weight(p); if (r<=0) return p; } return c[c.length-1];
+  };
+  const a = pickOne(null), b = pickOne(a.id);
+  current = Math.random()<.5?[a,b]:[b,a];
+  $("duelPos").textContent = "Duel · "+POS_LABEL[pos];
+  [$("pickA"),$("pickB")].forEach((el,i)=>{
+    const p=current[i], r=t[p.id]||[0,0];
+    el.className="pick"; el.disabled=false;
+    el.setAttribute("aria-label",`Vote for ${p.name}, ${POS_LABEL[p.pos]}, at OM ${p.seasons}`);
+    el.innerHTML = `<span class="pos">${POS_LABEL[p.pos]}</span><span class="name">${esc(p.name)}</span>
+      <span class="seasons">At OM: ${esc(p.seasons)}</span><span class="rec">${r[0]+r[1]? r[0]+" wins in "+(r[0]+r[1])+" duels":"First duel"}</span>`;
+  });
+}
+function vote(i){
+  if (!current || busy) return; busy = true;
+  const win = current[i], lose = current[1-i];
+  mine[win.id] = mine[win.id]||[0,0]; mine[win.id][0]++;
+  mine[lose.id] = mine[lose.id]||[0,0]; mine[lose.id][1]++;
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(mine)); }catch(e){}
+  $("pickA").classList.add(i===0?"chosen":"lost"); $("pickB").classList.add(i===1?"chosen":"lost");
+  $("pickA").disabled = $("pickB").disabled = true;
+  scheduleSave(); render();
+  setTimeout(()=>{busy=false;newDuel();}, 450);
+}
+$("pickA").addEventListener("click",()=>vote(0));
+$("pickB").addEventListener("click",()=>vote(1));
+$("skip").addEventListener("click",newDuel);
+
+function buildFilters(el, getter, setter){
+  const opts = ["ALL",...POS_ORDER];
+  el.innerHTML = opts.map(o=>`<button class="btn" type="button" data-p="${o}" aria-pressed="${getter()===o}">${o==="ALL"?"All":o}</button>`).join("");
+  el.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;setter(b.dataset.p);
+    el.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.p===getter()));});
+}
+buildFilters($("filters"),()=>duelPos,v=>{duelPos=v;newDuel();});
+buildFilters($("rankFilters"),()=>rankPos,v=>{rankPos=v;render();});
+
+// ---- shared votes (db) ----
+let saveTimer=null, saving=null, dirty=false;
+function scheduleSave(){
+  if (mode!=="shared") return;
+  dirty = true; clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700);
+}
+async function flush(){
+  if (saving){ await saving; }
+  if (!dirty || mode!=="shared") return;
+  dirty = false;
+  const body = {t: JSON.parse(JSON.stringify(mine)), n: Object.values(mine).reduce((a,[w])=>a+w,0), at: new Date().toISOString()};
+  saving = db.doc("votes/"+uid).set(body).catch(e=>{
+    if (e && e.code==="invalid_argument"){ toLocal("Your account can view the community XI but not add to it. Your votes are kept on this device only."); }
+    else { dirty = true; setTimeout(flush, 2500 + Math.random()*1500); }
+  }).finally(()=>{saving=null;});
+  await saving;
+}
+function toLocal(msg){ mode="local"; $("banner").innerHTML = msg; render(); }
+
+async function connect(){
+  if (!window.claude || !window.claude.use){ toLocal("Open this page on claude.ai to vote with the community. Your votes are kept on this device for now."); return; }
+  const [d,u] = await Promise.all([claude.use("db"), claude.use("user")]);
+  if (!d){ toLocal("Sign in on claude.ai to vote with the community. Your votes are kept on this device for now."); return; }
+  db = d;
+  uid = u ? await u.id() : null;
+  const can = u ? await u.can("data.write") : null;
+  if (!uid || can===false){
+    canWrite=false;
+    $("banner").innerHTML = "<b>View-only access.</b> You see the community XI live, but your votes stay on this device. Ask the owner for Contributor access to count.";
+  } else canWrite = true;
+
+  if (canWrite){
+    try{
+      const snap = await db.doc("votes/"+uid).get();
+      const saved = snap.exists ? (snap.data().t||{}) : {};
+      // merge: keep the larger of device and saved counts per player
+      const merged = {};
+      for (const id of new Set([...Object.keys(saved),...Object.keys(mine)])){
+        if (!BY_ID[id]) continue;
+        const a=saved[id]||[0,0], b=mine[id]||[0,0]; merged[id]=[Math.max(a[0],b[0]),Math.max(a[1],b[1])];
+      }
+      mine = merged; mode = "shared";
+      $("banner").innerHTML = "<b>You're in.</b> Every duel you vote on counts toward the community XI, live for every fan.";
+      if (JSON.stringify(merged)!==JSON.stringify(saved)){ dirty=true; flush(); }
+    }catch(e){ toLocal("The community vote is unreachable right now. Your votes are kept on this device."); }
+  }
+
+  db.collection("votes").limit(1000).onSnapshot(qs=>{
+    const agg = {}; let n=0; mineServer = {};
+    for (const doc of qs.docs){
+      const t = (doc.data()||{}).t||{}; let any=false;
+      for (const [id,v] of Object.entries(t)){
+        if (!BY_ID[id] || !Array.isArray(v)) continue;
+        const w=+v[0]||0, l=+v[1]||0; if (w<0||l<0) continue;
+        const c=agg[id]||[0,0]; agg[id]=[c[0]+w,c[1]+l]; any = any || w+l>0;
+        if (doc.id===uid) mineServer[id]=[w,l];
+      }
+      if (any) n++;
+    }
+    community = agg; fans = n;
+    if (mode!=="shared") mineServer = {}; // local votes are added on top
+    render();
+  }, err=>{ $("banner").textContent = "Live updates paused. Reload the page to reconnect."; });
+}
+
+render(); newDuel();
+connect().catch(()=>toLocal("The community vote is unreachable right now. Your votes are kept on this device."));
+</script>
