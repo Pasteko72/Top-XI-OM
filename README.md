@@ -5,7 +5,7 @@ build a live 4-4-2 "top XI" on the pitch at the top of the page.
 
 | Path | What it is |
 |---|---|
-| `index.html` | The public website: sign in with **Google**, votes stored in Firebase. Served by GitHub Pages from this branch. |
+| `index.html` | The public website: sign in with **Google**, votes stored in Firebase. Deployed to GitHub Pages by a workflow. |
 | `firebase-config.js` | Firebase web keys (empty = demo mode, votes stay on the device). |
 | `firestore.rules` | Database security rules (each fan can only edit their own votes, with anti-spam limits). |
 | `artifact/index.html` | The claude.ai Artifact version (claude.ai accounts only). |
@@ -25,8 +25,9 @@ Left sidebar: **Security → Authentication → Get started → Sign-in method �
 `https://console.firebase.google.com/project/YOUR-PROJECT-ID/authentication/providers`.)
 
 ### 3. Publish the website on GitHub Pages
-GitHub repo → **Settings → Pages → Deploy from a branch** → branch `claude/marseille-player-voting-app-uj8pbf`, folder `/ (root)`.
-The site is at **https://pasteko72.github.io/Top-XI-OM/** and updates on every push.
+GitHub repo → **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+Every push to the branch then deploys the site to **https://pasteko72.github.io/Top-XI-OM/**
+(workflow `.github/workflows/pages.yml`; it can also be run by hand from the Actions tab).
 
 ### 4. Allow the site's address to sign people in
 Firebase → **Authentication → Settings → Authorized domains → Add domain** → `pasteko72.github.io`.
