@@ -32,14 +32,6 @@ Every push to the branch then deploys the site to **https://pasteko72.github.io/
 ### 4. Allow the site's address to sign people in
 Firebase → **Authentication → Settings → Authorized domains → Add domain** → `pasteko72.github.io`.
 
-### 5. Block bots with App Check (reCAPTCHA Enterprise / Fraud Defense)
-1. Google Cloud console, project `top-xi-om` → **Security → Fraud Defense** (reCAPTCHA) → enable the API if asked →
-   **Create key**: platform **Website**, domain `pasteko72.github.io`, *no* checkbox challenge (score-based) → copy the **key ID**.
-2. Firebase → **Security → App Check → Apps** → your web app → **reCAPTCHA Enterprise** → paste the key ID → Save.
-3. Put the key ID in `firebase-config.js` (`RECAPTCHA_SITE_KEY`) and push.
-4. Wait a day, then check **App Check → APIs → Cloud Firestore**: almost all requests should be "Verified".
-   Then click **Enforce**. From then on, only the real site can read/write votes.
-
 ## How the vote works
 - Each fan has one document `votes/<uid>` = `{ t: { playerId: [wins, losses] }, n, at }`.
 - Everyone's documents are summed live in the browser. Each fan's weight per player is capped at 200 duels.
