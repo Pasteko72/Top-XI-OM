@@ -648,7 +648,7 @@ async function connect(){
   if (RECAPTCHA_SITE_KEY){
     try{
       const ac = await import(FB+"firebase-app-check.js");
-      ac.initializeAppCheck(app, { provider: new ac.ReCaptchaV3Provider(RECAPTCHA_SITE_KEY), isTokenAutoRefreshEnabled: true });
+      ac.initializeAppCheck(app, { provider: new ac.ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY), isTokenAutoRefreshEnabled: true });
     }catch(e){ console.warn("App Check unavailable", e); }
   }
   auth = A.getAuth(app); fs = F.getFirestore(app);

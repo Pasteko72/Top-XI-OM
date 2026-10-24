@@ -10,5 +10,5 @@ export const FIREBASE_CONFIG = {
   measurementId: "G-PCS9DXC5M3"
 };
 
-// reCAPTCHA v3 site key used by Firebase App Check (anti-bot). Empty = App Check off.
+// reCAPTCHA Enterprise (Google Cloud Fraud Defense) site key used by Firebase App Check (anti-bot). Empty = App Check off.
 export const RECAPTCHA_SITE_KEY = "";

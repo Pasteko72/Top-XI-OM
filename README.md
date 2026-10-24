@@ -32,11 +32,11 @@ Every push to the branch then deploys the site to **https://pasteko72.github.io/
 ### 4. Allow the site's address to sign people in
 Firebase → **Authentication → Settings → Authorized domains → Add domain** → `pasteko72.github.io`.
 
-### 5. Block bots with App Check (reCAPTCHA v3)
-1. Create a key at https://www.google.com/recaptcha/admin/create → type **reCAPTCHA v3** (score-based),
-   domain `pasteko72.github.io` → copy the **site key** and the **secret key**.
-2. Firebase → **Security → App Check → Apps** → your web app → **reCAPTCHA** → paste the **secret key** → Save.
-3. Put the **site key** in `firebase-config.js` (`RECAPTCHA_SITE_KEY`) and push.
+### 5. Block bots with App Check (reCAPTCHA Enterprise / Fraud Defense)
+1. Google Cloud console, project `top-xi-om` → **Security → Fraud Defense** (reCAPTCHA) → enable the API if asked →
+   **Create key**: platform **Website**, domain `pasteko72.github.io`, *no* checkbox challenge (score-based) → copy the **key ID**.
+2. Firebase → **Security → App Check → Apps** → your web app → **reCAPTCHA Enterprise** → paste the key ID → Save.
+3. Put the key ID in `firebase-config.js` (`RECAPTCHA_SITE_KEY`) and push.
 4. Wait a day, then check **App Check → APIs → Cloud Firestore**: almost all requests should be "Verified".
    Then click **Enforce**. From then on, only the real site can read/write votes.
 
