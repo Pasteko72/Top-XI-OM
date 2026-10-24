@@ -143,6 +143,8 @@ dialog#login::backdrop{background:rgba(4,14,22,.6)}
 .login-card .err{color:#d93a3a;min-height:1em}
 .login-card .btn{align-self:center}
 @media (max-width:560px){.side{align-items:flex-start}.account{justify-content:flex-start}}
+.grecaptcha-badge{visibility:hidden}
+footer a{color:inherit}
 footer{font-size:12px;color:var(--muted);text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -221,7 +223,7 @@ footer{font-size:12px;color:var(--muted);text-align:center}
     </div>
   </section>
 
-  <footer><span data-i18n="footer">Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</span> <span data-i18n="photoCredit"></span></footer>
+  <footer><span data-i18n="footer">Droit au But. Squad list compiled for fans from 2000–01 to 2025–26; seasons give the first and last season start year at the club.</span> <span data-i18n="photoCredit"></span><br><span data-i18n="recaptcha"></span></footer>
 </div>
 
 <dialog id="login" aria-labelledby="loginTitle">
@@ -334,7 +336,8 @@ const I18N = {
     paused:"Mises à jour en direct suspendues. Recharge la page pour te reconnecter.",
     signedOut:"<b>Connecte-toi avec Google</b> pour que tes votes comptent. En attendant, ils restent sur cet appareil et seront ajoutés à ton compte à la connexion.",
     signedIn:"<b>Allez l'OM, {name} !</b> Chaque duel que tu votes compte maintenant pour le XI de la communauté.",
-    supporter:"supporter", photoCredit:"Photos : Wikipédia / Wikimedia Commons, sous licences libres."
+    supporter:"supporter", photoCredit:"Photos : Wikipédia / Wikimedia Commons, sous licences libres.",
+    recaptcha:"Site protégé par reCAPTCHA : les <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">règles de confidentialité</a> et <a href=\"https://policies.google.com/terms\" target=\"_blank\" rel=\"noopener\">conditions d'utilisation</a> de Google s'appliquent."
   },
   en: {
     eyebrow:"Olympique de Marseille · 2000 → today",
@@ -356,7 +359,8 @@ const I18N = {
     paused:"Live updates paused. Reload the page to reconnect.",
     signedOut:"<b>Sign in with Google</b> to make your votes count. Until then they're kept on this device, and they'll be added to your account when you sign in.",
     signedIn:"<b>Allez l'OM, {name}!</b> Every duel you vote on now counts toward the community XI.",
-    supporter:"supporter", photoCredit:"Photos: Wikipedia / Wikimedia Commons, under free licences."
+    supporter:"supporter", photoCredit:"Photos: Wikipedia / Wikimedia Commons, under free licences.",
+    recaptcha:"This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noopener\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\" rel=\"noopener\">Terms of Service</a> apply."
   }
 };
 const POS_TEXT = {
@@ -539,7 +543,7 @@ buildFilters($("filters"),()=>duelPos,v=>{duelPos=v;newDuel();});
 buildFilters($("rankFilters"),()=>rankPos,v=>{rankPos=v;render();});
 
 // ---- accounts + shared votes (Firebase) ----
-import { FIREBASE_CONFIG } from "./firebase-config.js";
+import { FIREBASE_CONFIG, RECAPTCHA_SITE_KEY } from "./firebase-config.js";
 const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
 let fs = null, auth = null, A = null, F = null, user = null, unsubVotes = null;
 let saveTimer=null, saving=null, dirty=false;
@@ -640,6 +644,13 @@ async function connect(){
     import(FB+"firebase-app.js"), import(FB+"firebase-auth.js"), import(FB+"firebase-firestore.js")]);
   A = authMod; F = fsMod;
   const app = appMod.initializeApp(FIREBASE_CONFIG);
+  // App Check: only this site (verified by invisible reCAPTCHA) may write votes, so scripts and bots are refused.
+  if (RECAPTCHA_SITE_KEY){
+    try{
+      const ac = await import(FB+"firebase-app-check.js");
+      ac.initializeAppCheck(app, { provider: new ac.ReCaptchaV3Provider(RECAPTCHA_SITE_KEY), isTokenAutoRefreshEnabled: true });
+    }catch(e){ console.warn("App Check unavailable", e); }
+  }
   auth = A.getAuth(app); fs = F.getFirestore(app);
   A.getRedirectResult(auth).catch(()=>{});
   listenVotes();

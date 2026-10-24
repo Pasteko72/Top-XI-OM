@@ -9,3 +9,6 @@ export const FIREBASE_CONFIG = {
   appId: "1:282275304573:web:6f963a65e2616ae1fecd14",
   measurementId: "G-PCS9DXC5M3"
 };
+
+// reCAPTCHA v3 site key used by Firebase App Check (anti-bot). Empty = App Check off.
+export const RECAPTCHA_SITE_KEY = "";
